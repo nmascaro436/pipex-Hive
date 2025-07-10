@@ -1,0 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 11:04:23 by nmascaro          #+#    #+#             */
+/*   Updated: 2025/07/10 11:48:41 by nmascaro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
+void	print_file_error(const char *filename)
+{
+	write(2, "pipex: ", 7);
+	write(2, filename, ft_strlen(filename));
+	write(2, ": ", 2);
+	perror(NULL);
+}
+
+void	system_call_error(const char *message)
+{
+	write(2, "pipex: ", 7);
+	perror(message);
+	exit(EXIT_FAILURE);
+}
