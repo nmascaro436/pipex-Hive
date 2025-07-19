@@ -6,12 +6,21 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/10 11:48:57 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:54:01 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+static void	close_fds(int infile, int outfile, int pipefd[2])
+{
+	if (infile != -1)
+		close (infile);
+	if (outfile != -1)
+		close (outfile);
+	close(pipefd[0]);
+	close(pipefd[1]);
+}
 int	main(int argc, char *argv[], char *const envp[])
 {
 	int		pipefd[2];
@@ -31,8 +40,7 @@ int	main(int argc, char *argv[], char *const envp[])
 		system_call_error("pipe");
 	pid1 = first_child(argv[2], infile, pipefd, envp);
 	pid2 = second_child(argv[3], outfile, pipefd, envp);
-	close(pipefd[0]);
-	close(pipefd[1]);
+	close_fds(infile, outfile, pipefd);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 	return (0);
