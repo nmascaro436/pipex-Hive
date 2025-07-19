@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/19 15:54:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:05:12 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	close_fds(int infile, int outfile, int pipefd[2])
 	close(pipefd[0]);
 	close(pipefd[1]);
 }
+
 int	main(int argc, char *argv[], char *const envp[])
 {
 	int		pipefd[2];
