@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:53:13 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/10 11:48:48 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:57:15 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 * or searched in the PATH environment variable.
 * Returns 1 on success, 0 otherwise.
 */
+
 int	is_cmd_path(char *cmd)
 {
 	int	i;
@@ -36,7 +37,7 @@ int	is_cmd_path(char *cmd)
 	return (0);
 }
 
-static void	free_paths(char **paths)
+void	free_paths(char **paths)
 {
 	int	i;
 
@@ -55,6 +56,7 @@ static void	free_paths(char **paths)
 * if it is the candidate path is returned.
 * If not, memory is freed and NULL is returned.
 */
+
 static char	*build_and_check(char *dir, char *cmd)
 {
 	char	*temp;
@@ -79,6 +81,7 @@ static char	*build_and_check(char *dir, char *cmd)
 * Returns a malloc'd string with the full path to the command,
 * or NULL if not found.
 */
+
 static char	*search_in_paths(char *cmd, char *path_env)
 {
 	char	**paths;
@@ -107,6 +110,7 @@ static char	*search_in_paths(char *cmd, char *path_env)
 * Looks for the "PATH=" entry inside the envp array,
 * and calls search_in_paths to attempt locating the command in those directories.
 */
+
 char	*get_command_path(char *cmd, char *const envp[])
 {
 	int	i;

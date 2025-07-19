@@ -6,10 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:35:51 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/07 11:13:31 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:57:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PIPEX_H
+
 # define PIPEX_H
 # include "libft.h"
 # include <fcntl.h>
@@ -27,5 +27,6 @@ pid_t	second_child(char *cmd2, int outfile, int pipefd[2],
 			char *const envp[]);
 char	*get_command_path(char *cmd, char *const envp[]);
 int		is_cmd_path(char *cmd);
+void	free_paths(char **paths)
 
 #endif
