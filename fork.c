@@ -6,17 +6,21 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 10:06:45 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:52:31 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 /**
-* Splits the command string into arguments, 
-* resolves the command path using the environment variable PATH
-* (unless it already is) and executes it using execve.
-* If anything fails, appropriate error handling is performed.
+* Resolves the full executable path of a command.
+* Takes the splits command arguments and environment variables,
+* and determines the absolute path to the executable:
+* -If the command is empty, prints error and exits.
+* -If the command is direct path, duplicates it.
+* -If not, searches for the command in the PATH environment.
+* -If the command can't be found, prints error and exits.
 */
+
 static char	*resolve_path(char **args, char *const envp[])
 {
 	char	*path;
@@ -40,8 +44,11 @@ static char	*resolve_path(char **args, char *const envp[])
 	return (path);
 }
 /**
- * 
+ * Splits the command string into arguments, resolves
+ * executable path and attempts to execute it using execve.
+ * Handles errors by printing appropriate messages and exits.
  */
+
 static void	run_command(char *cmd, char *const envp[])
 {
 	char	**args;
@@ -59,8 +66,11 @@ static void	run_command(char *cmd, char *const envp[])
 
 /**
 * Creates the first child process to run the first command.
-* Sets up redirection from infile to the command's stdin and pipe to stdout,
-* then executes the command.
+* Forks a new process. In the child:
+* -Redirects infile to stdin if infile is valid.
+* -Redirects the write end of the pipe to stdout.
+* -Closes unused pipe ends and infile descriptor.
+* -Executes the given command with the provided environment.
 * Returns the PID of the forked child process.
 */
 
@@ -90,10 +100,13 @@ pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 }
 
 /**
-* Creates the second child process to run the second command.
-* Sets up redirection from pipe to stdin and outfile to stdout,
-* then executes the command.
-* Returns the PID of the forked child process. 
+* Creates the second child process to run the first command.
+* Forks a new process. In the child:
+* -Redirects the read end of the pipe to stdin.
+* -Redirects stdout to outfile if it is valid.
+* -Closes unused pipe ends and outfile descriptor.
+* -Executes the given command with the provided environment.
+* Returns the PID of the forked child process.
 */
 
 pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])

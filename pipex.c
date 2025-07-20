@@ -6,11 +6,16 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/19 16:05:12 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 11:04:24 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+/**
+ * Closes the file descriptors used by the parent process.
+ * Closes input file, output file and pipe ends if they are valid.
+ * Used after forking to avoid descriptor leaks.
+ */
 
 static void	close_fds(int infile, int outfile, int pipefd[2])
 {
@@ -21,6 +26,12 @@ static void	close_fds(int infile, int outfile, int pipefd[2])
 	close(pipefd[0]);
 	close(pipefd[1]);
 }
+/**
+ * Entry point of the program.
+ * Validates arguments, opens input/output files, creates a pipe,
+ * forks two child processes to run the commands, and waits for them.
+ * Handles setup and cleanup of all fd and system resources.
+ */
 
 int	main(int argc, char *argv[], char *const envp[])
 {

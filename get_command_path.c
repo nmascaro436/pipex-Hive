@@ -6,16 +6,15 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:53:13 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 10:18:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:57:30 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 /**
-* Checks if a command is a direct path and is executable,
-* used to determine whether a command should be executed directly,
-* or searched in the PATH environment variable.
-* Returns 1 on success, 0 otherwise.
+* Checks if a command is a valid executable path.
+* Returns 1 if the command string contains a '/' and points
+* to an existing file with execute permission, 0 otherwise.
 */
 
 int	is_cmd_path(char *cmd)
@@ -43,6 +42,12 @@ int	is_cmd_path(char *cmd)
 	}
 	return (0);
 }
+/**
+ * Frees NULL-terminated array of strings.
+ * Iterates through the array, frees each string,
+ * then frees the array itself.
+ * Does nothing if paths is NULL.
+ */
 
 void	free_paths(char **paths)
 {

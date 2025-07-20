@@ -6,11 +6,16 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:04:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 10:20:05 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:39:40 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+/**
+ * Prints and error message for a file-related failure.
+ * Outputs "pipex: <filename>: <system error message>".
+ * Uses perror to include the errno-based description.
+ */
 
 void	print_file_error(const char *filename)
 {
@@ -20,6 +25,11 @@ void	print_file_error(const char *filename)
 	write(2, ": ", 2);
 	perror(NULL);
 }
+/**
+ * Prints a system call error and exits the program.
+ * Outputs "pipex: <message>: <system error>" using perror,
+ * then exits with EXIT_FAILURE.
+ */
 
 void	system_call_error(const char *message)
 {
@@ -27,6 +37,12 @@ void	system_call_error(const char *message)
 	perror(message);
 	exit(EXIT_FAILURE);
 }
+/**
+ * Handles internal logic errors in the program.
+ * Outputs "pipex: <message>: internal error"
+ * and exits the program.
+ */
+
 void	logic_error(const char *message)
 {
 	write(2, "pipex: ", 7);
@@ -34,6 +50,12 @@ void	logic_error(const char *message)
 	write(2, ": internal error\n", 17);
 	exit(EXIT_FAILURE);
 }
+/**
+ * Prints a "command not found" error to stderr.
+ * If command is NULL or empty, only the standard error
+ * format is printed.
+ */
+
 void	print_command_error(const char *command)
 {
 	write(2, "pipex: ", 7);
