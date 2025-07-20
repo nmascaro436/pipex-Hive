@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 09:15:36 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 09:58:57 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@ static void	run_command(char *cmd, char *const envp[])
 	args = ft_split(cmd, ' ');
 	if (!args)
 		logic_error("ft_split");
+	if (!args[0] || !args[0][0])
+	{
+		print_command_error("");
+		free_paths(args);
+		exit(127);
+	}
 	if (is_cmd_path(args[0]))
 		path = ft_strdup(args[0]);
 	else
 		path = get_command_path(args[0], envp);
 	if (!path)
 	{
-		print_file_error(args[0]);
+		print_command_error(args[0]);
 		free_paths(args);
 		exit(127);
 	}
@@ -59,11 +65,14 @@ pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 	if (pid == 0)
 	{
 		if (infile != -1)
-			dup2(infile, STDIN_FILENO);
-		dup2(pipefd[1], STDOUT_FILENO);
+		{
+			if (dup2(infile, STDIN_FILENO) == -1)
+				system_call_error("dup2");
+		}
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			system_call_error("dup2");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		close(infile);
 		if (infile != -1)
 			close(infile);
 		run_command(cmd1, envp);
@@ -87,9 +96,13 @@ pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])
 		system_call_error("fork");
 	if (pid == 0)
 	{
-		dup2(pipefd[0], STDIN_FILENO);
+		if(dup2(pipefd[0], STDIN_FILENO) == -1)
+			system_call_error("dup2");
 		if (outfile != -1)
-			dup2(outfile, STDOUT_FILENO);
+		{
+			if(dup2(outfile, STDOUT_FILENO) == -1)
+				system_call_error("dup2");
+		}
 		close(pipefd[1]);
 		close(pipefd[0]);
 		if (outfile != -1)
