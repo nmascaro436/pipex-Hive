@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/19 16:03:09 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 09:15:36 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 * (unless it already is) and executes it using execve.
 * If anything fails, appropriate error handling is performed.
 */
+
 static void	run_command(char *cmd, char *const envp[])
 {
 	char	**args;
@@ -24,7 +25,7 @@ static void	run_command(char *cmd, char *const envp[])
 
 	args = ft_split(cmd, ' ');
 	if (!args)
-		system_call_error("ft_split");
+		logic_error("ft_split");
 	if (is_cmd_path(args[0]))
 		path = ft_strdup(args[0]);
 	else
@@ -47,6 +48,7 @@ static void	run_command(char *cmd, char *const envp[])
 * then executes the command.
 * Returns the PID of the forked child process.
 */
+
 pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 {
 	pid_t	pid;
@@ -75,6 +77,7 @@ pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 * then executes the command.
 * Returns the PID of the forked child process. 
 */
+
 pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])
 {
 	pid_t	pid;

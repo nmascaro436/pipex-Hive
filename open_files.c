@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:54:22 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/10 11:48:53 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 09:01:10 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 * Returns file descriptor if successful, -1 if the file
 * couldn't be opened and prints error message.
 */
+
 int	open_infile(const char *path)
 {
 	int	infile_fd;
@@ -37,6 +38,7 @@ int	open_infile(const char *path)
 * Returns file descriptor if successful, -1 if the file
 * couldn't be opened or created and prints error message.
 */
+
 int	open_outfile(const char *path)
 {
 	int	outfile_fd;

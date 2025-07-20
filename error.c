@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:04:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/10 11:48:41 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 09:19:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,17 @@ void	system_call_error(const char *message)
 	write(2, "pipex: ", 7);
 	perror(message);
 	exit(EXIT_FAILURE);
+}
+void	logic_error(const char *message)
+{
+	write(2, "pipex: ", 7);
+	write(2, message, ft_strlen(message));
+	write(2, ": internal error\n", 17);
+	exit(EXIT_FAILURE);
+}
+void	print_command_error(const char *command)
+{
+	write(2, "pipex: ", 7);
+	write(2, command, ft_strlen(command));
+	write(2, ": command not found\n", 20);
 }
