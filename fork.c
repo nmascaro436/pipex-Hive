@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 09:58:57 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:06:45 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,10 @@
 * (unless it already is) and executes it using execve.
 * If anything fails, appropriate error handling is performed.
 */
-
-static void	run_command(char *cmd, char *const envp[])
+static char	*resolve_path(char **args, char *const envp[])
 {
-	char	**args;
 	char	*path;
-
-	args = ft_split(cmd, ' ');
-	if (!args)
-		logic_error("ft_split");
+	
 	if (!args[0] || !args[0][0])
 	{
 		print_command_error("");
@@ -42,6 +37,20 @@ static void	run_command(char *cmd, char *const envp[])
 		free_paths(args);
 		exit(127);
 	}
+	return (path);
+}
+/**
+ * 
+ */
+static void	run_command(char *cmd, char *const envp[])
+{
+	char	**args;
+	char	*path;
+
+	args = ft_split(cmd, ' ');
+	if (!args)
+		logic_error("ft_split");
+	path = resolve_path(args, envp);
 	execve(path, args, envp);
 	free(path);
 	free_paths(args);
