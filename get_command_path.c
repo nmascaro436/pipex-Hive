@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:53:13 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/19 15:57:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:18:08 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,20 @@ int	is_cmd_path(char *cmd)
 {
 	int	i;
 
+	if (!cmd || !cmd[0])
+		return (0);
 	i = 0;
 	while (cmd[i])
 	{
 		if (cmd[i] == '/')
 		{
-			if (access(cmd, X_OK) == 0)
-				return (1);
+			if (access(cmd, F_OK) == 0)
+			{
+				if (access(cmd, X_OK) == 0)
+					return (1);
+				else
+					return (0);
+			}
 			else
 				return (0);
 		}
@@ -41,6 +48,8 @@ void	free_paths(char **paths)
 {
 	int	i;
 
+	if (!paths)
+		return ;
 	i = 0;
 	while (paths[i])
 	{
@@ -62,6 +71,8 @@ static char	*build_and_check(char *dir, char *cmd)
 	char	*temp;
 	char	*candidate;
 
+	if (!dir || !cmd)
+		return (NULL);
 	temp = ft_strjoin(dir, "/");
 	if (!temp)
 		return (NULL);
@@ -88,6 +99,8 @@ static char	*search_in_paths(char *cmd, char *path_env)
 	char	*candidate;
 	int		i;
 
+	if (!cmd || !path_env)
+		return (NULL);
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);
@@ -115,6 +128,8 @@ char	*get_command_path(char *cmd, char *const envp[])
 {
 	int	i;
 
+	if (!cmd || !envp)
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
