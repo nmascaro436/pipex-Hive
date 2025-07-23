@@ -6,14 +6,14 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 10:52:31 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:06:20 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 /**
 * Resolves the full executable path of a command.
-* Takes the splits command arguments and environment variables,
+* Takes the split command arguments and environment variables,
 * and determines the absolute path to the executable:
 * -If the command is empty, prints error and exits.
 * -If the command is direct path, duplicates it.

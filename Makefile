@@ -12,7 +12,7 @@
 NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = .c files here! And not sure yet if i'll use libft!!
+SRCS = error.c fork.c get_command_path.c open_files.c pipex.c
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
