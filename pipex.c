@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 11:04:24 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:13:48 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	main(int argc, char *argv[], char *const envp[])
 	}
 	infile = open_infile(argv[1]);
 	outfile = open_outfile(argv[4]);
+	if (infile == -1 || outfile == -1)
+		exit(EXIT_FAILURE);
 	if (pipe(pipefd) == -1)
 		system_call_error("pipe");
 	pid1 = first_child(argv[2], infile, pipefd, envp);
