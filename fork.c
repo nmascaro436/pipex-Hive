@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 13:06:20 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/24 11:36:07 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 static char	*resolve_path(char **args, char *const envp[])
 {
 	char	*path;
-	
+
 	if (!args[0] || !args[0][0])
 	{
 		print_command_error("");
@@ -118,11 +118,11 @@ pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])
 		system_call_error("fork");
 	if (pid == 0)
 	{
-		if(dup2(pipefd[0], STDIN_FILENO) == -1)
+		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 			system_call_error("dup2");
 		if (outfile != -1)
 		{
-			if(dup2(outfile, STDOUT_FILENO) == -1)
+			if (dup2(outfile, STDOUT_FILENO) == -1)
 				system_call_error("dup2");
 		}
 		close(pipefd[1]);
