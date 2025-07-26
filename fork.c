@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/26 12:03:20 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/26 12:10:41 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,18 @@ pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 		system_call_error("fork");
 	if (pid == 0)
 	{
-		if (infile != -1)
+		if (infile == -1)
+			close(STDIN_FILENO);
+		else
 		{
 			if (dup2(infile, STDIN_FILENO) == -1)
 				system_call_error("dup2");
+			close (infile);
 		}
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			system_call_error("dup2");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		if (infile != -1)
-			close(infile);
 		run_command(cmd1, envp);
 	}
 	return (pid);
@@ -129,11 +130,10 @@ pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])
 		{
 			if (dup2(outfile, STDOUT_FILENO) == -1)
 				system_call_error("dup2");
+			close (outfile);
 		}
 		close(pipefd[1]);
 		close(pipefd[0]);
-		if (outfile != -1)
-			close(outfile);
 		run_command(cmd2, envp);
 	}
 	return (pid);
