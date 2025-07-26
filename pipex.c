@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/26 11:51:28 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/26 12:22:45 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	close_fds(int infile, int outfile, int pipefd[2])
  * Otherwise, the function returns 1.
  */
 
- static int	wait_for_children(pid_t pid1, pid_t pid2)
- {
+static int	wait_for_children(pid_t pid1, pid_t pid2)
+{
 	int	status1;
 	int	status2;
 
@@ -43,7 +43,7 @@ static void	close_fds(int infile, int outfile, int pipefd[2])
 	if (WIFEXITED(status2))
 		return (WEXITSTATUS(status2));
 	return (1);
- }
+}
 /**
  * Entry point of the program.
  * Validates arguments, opens input/output files, creates a pipe,

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:53:13 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/26 12:19:17 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/26 12:22:08 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ static char	*search_in_paths(char *cmd, char *path_env)
 
 char	*get_command_path(char *cmd, char *const envp[])
 {
-	int	i;
+	int		i;
 	char	*path;
 
 	if (!cmd || !envp)
