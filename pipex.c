@@ -68,13 +68,13 @@ int	main(int argc, char *argv[], char *const envp[])
 	}
 	infile = open_infile(argv[1]);
 	outfile = open_outfile(argv[4]);
-	if (outfile == -1)
-		exit(EXIT_FAILURE);
 	if (pipe(pipefd) == -1)
 		system_call_error("pipe");
 	pid1 = first_child(argv[2], infile, pipefd, envp);
 	pid2 = second_child(argv[3], outfile, pipefd, envp);
 	close_fds(infile, outfile, pipefd);
 	infile = wait_for_children(pid1, pid2);
+	if (outfile == -1)
+		exit(EXIT_FAILURE);
 	return (infile);
 }
