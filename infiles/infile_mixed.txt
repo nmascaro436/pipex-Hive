@@ -1,0 +1,9 @@
+     leading space
+trailing space     
+multiple     spaces  in    between
+tabs		are	here
+newlines
+
+are
+
+cool
