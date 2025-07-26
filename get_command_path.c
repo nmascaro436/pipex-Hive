@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:53:13 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 10:57:30 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/26 12:19:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ static char	*search_in_paths(char *cmd, char *path_env)
 /**
 * Looks for the "PATH=" entry inside the envp array,
 * and calls search_in_paths to attempt locating the command in those directories.
+* Returns a pointer to the full path string if found, NULL if not found.
 */
 
 char	*get_command_path(char *cmd, char *const envp[])
 {
 	int	i;
+	char	*path;
 
 	if (!cmd || !envp)
 		return (NULL);
@@ -139,10 +141,11 @@ char	*get_command_path(char *cmd, char *const envp[])
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			break ;
+		{
+			path = search_in_paths(cmd, envp[i] + 5);
+			return (path);
+		}
 		i++;
 	}
-	if (!envp[i])
-		return (NULL);
-	return (search_in_paths(cmd, envp[i] + 5));
+	return (NULL);
 }
