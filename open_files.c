@@ -47,7 +47,7 @@ int	open_outfile(const char *path)
 	if (outfile_fd < 0)
 	{
 		print_file_error(path);
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	return (outfile_fd);
 }

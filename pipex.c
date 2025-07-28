@@ -74,5 +74,7 @@ int	main(int argc, char *argv[], char *const envp[])
 	pid2 = second_child(argv[3], outfile, pipefd, envp);
 	close_fds(infile, outfile, pipefd);
 	infile = wait_for_children(pid1, pid2);
+	if (outfile == -1)
+		exit(EXIT_FAILURE);
 	return (infile);
 }
