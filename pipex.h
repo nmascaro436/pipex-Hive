@@ -6,18 +6,18 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:35:51 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 09:19:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/28 09:25:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 # include "libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/wait.h>
-# include <unistd.h>
+# include <fcntl.h> //For open() flags like O_RDONLY
+# include <stdio.h> //For perror()
+# include <stdlib.h> //For exit(), malloc(), free()
+# include <sys/wait.h> //For waitpid(), WIFEXITED(), WEXITSTATUS()
+# include <unistd.h> //For fork(), pipe(), dup2(), close(), access()
 
 int		open_infile(const char *path);
 int		open_outfile(const char *path);
