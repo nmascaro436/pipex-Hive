@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/26 12:22:45 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/28 10:35:41 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int argc, char *argv[], char *const envp[])
 	if (argc != 5)
 	{
 		ft_putendl_fd("Usage: ./pipex file1 cmd1 cmd2 file2", 2);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	infile = open_infile(argv[1]);
 	outfile = open_outfile(argv[4]);
