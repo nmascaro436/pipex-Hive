@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/28 10:35:41 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/28 10:48:21 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,5 @@ int	main(int argc, char *argv[], char *const envp[])
 	pid2 = second_child(argv[3], outfile, pipefd, envp);
 	close_fds(infile, outfile, pipefd);
 	infile = wait_for_children(pid1, pid2);
-	if (outfile == -1)
-		exit(EXIT_FAILURE);
 	return (infile);
 }

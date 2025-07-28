@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:54:22 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 09:01:10 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/28 10:47:43 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_outfile(const char *path)
 	if (outfile_fd < 0)
 	{
 		print_file_error(path);
-		return (-1);
+		exit(EXIT_FAILURE);
 	}
 	return (outfile_fd);
 }
