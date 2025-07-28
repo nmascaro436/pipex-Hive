@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:54:22 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/28 10:47:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/28 11:01:58 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	open_infile(const char *path)
 * If the file exists, its content is cleared (truncated) before writing.
 * If a new file is created we give permissions to it:
 * owner can read/write, group and others can read only.
-* Returns file descriptor if successful, -1 if the file
-* couldn't be opened or created and prints error message.
+* Returns file descriptor on success.
+* On failure, prints an error message and exits the program.
 */
 
 int	open_outfile(const char *path)
