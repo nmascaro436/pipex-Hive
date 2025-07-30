@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/30 15:10:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:13:51 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 	if (pid == 0)
 	{
 		close(pipefd[0]);
-		close(outfile); // FIX I need to close it but here outfile is undefined!! FIX
+		close(outfile); // FIX I need to close it but here outfile is undefined!!
 		if (infile == -1)
 			close(STDIN_FILENO);
 		else
@@ -126,7 +126,7 @@ pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])
 	if (pid == 0)
 	{
 		close(pipefd[1]);
-		close(infile); // FIX I need to close it but here infile is undefined!! FIX
+		close(infile); // FIX I need to close it but here infile is undefined!!
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 			system_call_error("dup2");
 		close(pipefd[0]);
