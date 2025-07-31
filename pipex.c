@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 11:18:59 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:38:25 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,24 @@ static void	close_fds(int infile, int outfile, int pipefd[2])
  * Otherwise, the function returns 1.
  */
 
-static int	wait_for_children(pid_t pid1, pid_t pid2)
+static int	wait_for_children(pid_t pid2)
 {
-	int	status1;
-	int	status2;
+	int		status;
+	pid_t	wpid;
+	int		exit_status;
 
-	waitpid(pid1, &status1, 0);
-	waitpid(pid2, &status2, 0);
-	if (WIFEXITED(status2))
-		return (WEXITSTATUS(status2));
-	return (1);
+	exit_status = 0;
+	wpid = waitpid(-1, &status, 0);
+	if (wpid == -1)
+		system_call_error("waitpid");
+	if (wpid == pid2 && WIFEXITED(status))
+		exit_status = WEXITSTATUS(status);
+	wpid = waitpid(-1, &status, 0);
+	if (wpid == -1)
+		system_call_error("waitpid");
+	if (wpid == pid2 && WIFEXITED(status))
+		exit_status = WEXITSTATUS(status);
+	return (exit_status);
 }
 /**
  * Entry point of the program.
@@ -72,6 +80,6 @@ int	main(int argc, char *argv[], char *const envp[])
 	pid1 = first_child(argv[2], fds, pipefd, envp);
 	pid2 = second_child(argv[3], fds, pipefd, envp);
 	close_fds(fds[0], fds[1], pipefd);
-	exit_status = wait_for_children(pid1, pid2);
+	exit_status = wait_for_children(pid2);
 	return (exit_status);
 }

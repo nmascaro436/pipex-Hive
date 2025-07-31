@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:04:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 13:57:17 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:39:10 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,15 @@ void	print_command_error(const char *command)
 		write(2, command, ft_strlen(command));
 	write(2, ": command not found\n", 20);
 }
+/**
+ * 
+ */
+
 void	handle_execve_error(char *path, char **args)
 {
 	if (access(path, F_OK) != 0)
 	{
+		print_file_error(args[0]);
 		free(path);
 		free_paths(args);
 		exit(127);
