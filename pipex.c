@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 15:38:25 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:57:45 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static void	close_fds(int infile, int outfile, int pipefd[2])
 	close(pipefd[1]);
 }
 /**
- * Waits for two child processes to end.
- * It retrieves their exit statuses, if the second child
- * terminated normally, its exit status is returned.
- * Otherwise, the function returns 1.
+ * Waits twice for any child process to finish (via waitpid with -1),
+ * assuming that two processes were created. If the process that just
+ * exited matches 'pid2' and it exited normally, its exit status is saved.
+ * Returns the exit status of 'pid2'.
  */
 
 static int	wait_for_children(pid_t pid2)

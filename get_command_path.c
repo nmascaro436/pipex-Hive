@@ -6,15 +6,14 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:53:13 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 13:45:25 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:03:06 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 /**
-* Checks if a command is a valid executable path.
-* Returns 1 if the command string contains a '/' and points
-* to an existing file with execute permission, 0 otherwise.
+* Checks whether a command string includes a path.
+* Returns 1 if the command includes a path, 0 otherwise.
 */
 
 int	is_cmd_path(char *cmd)

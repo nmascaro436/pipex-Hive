@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 15:11:03 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:07:48 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ static char	*resolve_path(char **args, char *const envp[])
 	return (path);
 }
 /**
- * Splits the command string into arguments, resolves
- * executable path and attempts to execute it using execve.
- * Handles errors by printing appropriate messages and exits.
+ * Validates the command input. If it's empty or NULL, handles it
+ * accordingly. Splits the command string into list of arguments.
+ * Finds the full path to the executable, calls execve with the resolved
+ * path, the argument list, and envp. If execve fails, calls function
+ * to report the issue and exit with appropiate status code
  */
 
 static void	run_command(char *cmd, char *const envp[])
@@ -70,11 +72,13 @@ static void	run_command(char *cmd, char *const envp[])
 /**
 * Creates the first child process to run the first command.
 * Forks a new process. In the child:
-* -Redirects infile to stdin if infile is valid.
-* -Redirects the write end of the pipe to stdout.
-* -Closes unused pipe ends and infile descriptor.
-* -Executes the given command with the provided environment.
-* Returns the PID of the forked child process.
+ * - Closes the read end of the pipe (`pipefd[0]`).
+ * - Closes the output file descriptor if it is valid (`fds[1]`).
+ * - If the input file descriptor (`fds[0]`) is invalid (-1), closes stdin.
+ *   Otherwise, duplicates it to stdin and closes the original descriptor.
+ * - Redirects stdout to the write end of the pipe (`pipefd[1]`).
+ * - Closes the used pipe descriptor after redirection.
+ * - Executes the command via `run_command()`.
 */
 
 pid_t	first_child(char *cmd1, int fds[2], int pipefd[2], char *const envp[])
@@ -106,12 +110,14 @@ pid_t	first_child(char *cmd1, int fds[2], int pipefd[2], char *const envp[])
 }
 
 /**
-* Creates the second child process to run the first command.
+* Creates the second child process to run the second command.
 * Forks a new process. In the child:
-* -Redirects the read end of the pipe to stdin.
-* -Redirects stdout to outfile if it is valid.
-* -Closes unused pipe ends and outfile descriptor.
-* -Executes the given command with the provided environment.
+ * - Closes the write end of the pipe (`pipefd[1]`).
+ * - Closes the input file descriptor if it is valid (`fds[0]`).
+ * - Redirects stdin to read from the pipe (`pipefd[0]`).
+ * - Validates and redirects stdout to the output file descriptor (`fds[1]`).
+ * - Closes the used descriptors after redirection.
+ * - Executes the command via `run_command()`.
 * Returns the PID of the forked child process.
 */
 
