@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:38:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/30 15:11:59 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:18:59 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,29 @@ static int	wait_for_children(pid_t pid1, pid_t pid2)
  * Validates arguments, opens input/output files, creates a pipe,
  * forks two child processes to run the commands, and waits for them.
  * Handles setup and cleanup of all fd and system resources.
- * Reuses 'infile' variable to store exit status, since infile fd
- * is no longer needed.
+ * Returns the appropriate exit status.
  */
 
 int	main(int argc, char *argv[], char *const envp[])
 {
 	int		pipefd[2];
-	int		infile;
-	int		outfile;
+	int		fds[2];
 	pid_t	pid1;
 	pid_t	pid2;
+	int		exit_status;
 
 	if (argc != 5)
 	{
 		ft_putendl_fd("Usage: ./pipex file1 cmd1 cmd2 file2", 2);
 		exit(EXIT_FAILURE);
 	}
-	infile = open_infile(argv[1]);
-	outfile = open_outfile(argv[4]);
+	fds[0] = open_infile(argv[1]);
+	fds[1] = open_outfile(argv[4]);
 	if (pipe(pipefd) == -1)
 		system_call_error("pipe");
-	pid1 = first_child(argv[2], infile, pipefd, envp);
-	pid2 = second_child(argv[3], outfile, pipefd, envp);
-	close_fds(infile, outfile, pipefd);
-	infile = wait_for_children(pid1, pid2);
-	return (infile);
+	pid1 = first_child(argv[2], fds, pipefd, envp);
+	pid2 = second_child(argv[3], fds, pipefd, envp);
+	close_fds(fds[0], fds[1], pipefd);
+	exit_status = wait_for_children(pid1, pid2);
+	return (exit_status);
 }

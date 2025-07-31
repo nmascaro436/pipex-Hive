@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/30 15:13:51 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:10:10 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	run_command(char *cmd, char *const envp[])
 * Returns the PID of the forked child process.
 */
 
-pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
+pid_t	first_child(char *cmd1, int fds[2], int pipefd[2], char *const envp[])
 {
 	pid_t	pid;
 
@@ -89,14 +89,15 @@ pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 	if (pid == 0)
 	{
 		close(pipefd[0]);
-		close(outfile); // FIX I need to close it but here outfile is undefined!!
-		if (infile == -1)
+		if (fds[1] != -1)
+			close(fds[1]);
+		if (fds[0] == -1)
 			close(STDIN_FILENO);
 		else
 		{
-			if (dup2(infile, STDIN_FILENO) == -1)
+			if (dup2(fds[0], STDIN_FILENO) == -1)
 				system_call_error("dup2");
-			close(infile);
+			close(fds[0]);
 		}
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			system_call_error("dup2");
@@ -116,7 +117,7 @@ pid_t	first_child(char *cmd1, int infile, int pipefd[2], char *const envp[])
 * Returns the PID of the forked child process.
 */
 
-pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])
+pid_t	second_child(char *cmd2, int fds[2], int pipefd[2], char *const envp[])
 {
 	pid_t	pid;
 
@@ -126,15 +127,16 @@ pid_t	second_child(char *cmd2, int outfile, int pipefd[2], char *const envp[])
 	if (pid == 0)
 	{
 		close(pipefd[1]);
-		close(infile); // FIX I need to close it but here infile is undefined!!
+		if (fds[0] != -1)
+			close(fds[0]);
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-			system_call_error("dup2");
+				system_call_error("dup2");
 		close(pipefd[0]);
-		if (outfile == -1)
+		if (fds[1] == -1)
 			exit(EXIT_FAILURE);
-		if (dup2(outfile, STDOUT_FILENO) == -1)
+		if (dup2(fds[1], STDOUT_FILENO) == -1)
 			system_call_error("dup2");
-		close (outfile);
+		close(fds[1]);
 		run_command(cmd2, envp);
 	}
 	return (pid);
