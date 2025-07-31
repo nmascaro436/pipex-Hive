@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:53:13 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/26 12:22:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 13:45:25 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,7 @@ int	is_cmd_path(char *cmd)
 	while (cmd[i])
 	{
 		if (cmd[i] == '/')
-		{
-			if (access(cmd, F_OK) == 0)
-			{
-				if (access(cmd, X_OK) == 0)
-					return (1);
-				else
-					return (0);
-			}
-			else
-				return (0);
-		}
+			return (1);
 		i++;
 	}
 	return (0);
