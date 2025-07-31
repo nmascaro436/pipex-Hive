@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 13:42:45 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 13:47:04 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ static void	run_command(char *cmd, char *const envp[])
 		logic_error("ft_split");
 	path = resolve_path(args, envp);
 	execve(path, args, envp);
-	free(path);
-	free_paths(args);
-	system_call_error("execve");
+	handle_execve_error(path, args);
 }
 
 /**

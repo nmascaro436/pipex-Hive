@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:04:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/20 10:39:40 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 13:57:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,26 @@ void	print_command_error(const char *command)
 	if (command && command[0])
 		write(2, command, ft_strlen(command));
 	write(2, ": command not found\n", 20);
+}
+void	handle_execve_error(char *path, char **args)
+{
+	if (access(path, F_OK) != 0)
+	{
+		free(path);
+		free_paths(args);
+		exit(127);
+	}
+	else if (access(path, X_OK) != 0)
+	{
+		free(path);
+		free_paths(args);
+		perror("Permission denied");
+		exit(126);
+	}
+	else
+	{
+		free(path);
+		free_paths(args);
+		system_call_error("execve");
+	}
 }

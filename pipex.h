@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:35:51 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 11:26:46 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/07/31 13:53:34 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	print_file_error(const char *filename);
 void	system_call_error(const char *message);
 void	logic_error(const char *message);
 void	print_command_error(const char *command);
+void	handle_execve_error(char *path, char **args);
 
 // Process management 
 pid_t	first_child(char *cmd1, int fds[2], int pipefd[2], char *const envp[]);
