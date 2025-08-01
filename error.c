@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:04:23 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 15:50:44 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/01 09:30:21 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,10 @@ void	handle_execve_error(char *path, char **args)
 	}
 	else
 	{
+		write(2, args[0], ft_strlen(args[0]));
+		write(2, ": is a directory\n", 18);
 		free(path);
 		free_paths(args);
-		system_call_error("execve");
+		exit(126);
 	}
 }
