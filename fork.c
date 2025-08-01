@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:33:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/07/31 16:07:48 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/01 09:58:36 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,7 @@ pid_t	second_child(char *cmd2, int fds[2], int pipefd[2], char *const envp[])
 			system_call_error("dup2");
 		close(pipefd[0]);
 		if (fds[1] == -1)
-		{
-			print_file_error("outfile");
 			exit(EXIT_FAILURE);
-		}
 		if (dup2(fds[1], STDOUT_FILENO) == -1)
 			system_call_error("dup2");
 		close(fds[1]);
